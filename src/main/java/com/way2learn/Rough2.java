@@ -4,7 +4,9 @@ import java.time.Duration;
 import java.util.List;
 import org.testng.Assert;
 
+import com.way2learn.pages.CartPage;
 import com.way2learn.pages.LandingPage;
+import com.way2learn.pages.ProductCataloguePage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class Rough {
+public class Rough2 {
 
 	public static void main(String[] args) {
 		String productName = "ZARA COAT 3";
@@ -26,31 +28,19 @@ public class Rough {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.get("https://rahulshettyacademy.com/client/#/auth/login");
 		LandingPage landingPage = new LandingPage(driver);
-		driver.findElement(By.id("userEmail")).sendKeys("shrikantnair80@gmail.com");
-		driver.findElement(By.id("userPassword")).sendKeys("Shaddy@0120");
-		driver.findElement(By.id("login")).click();
+		landingPage.loginApplication("shrikantnair80@gmail.com", "Shaddy@0120");
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(".mb-3")));
-		List<WebElement> items = driver.findElements(By.cssSelector(".mb-3"));
-		System.out.println(items.size());
-		WebElement prod = items.stream().filter(product->product.findElement(By.cssSelector("b")).
-				getText().equals(productName)).findFirst().orElse(null);
-		System.out.println();
-		prod.findElement(By.cssSelector(".card-body button:last-of-type")).click();
-		
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));
-		
-		//wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector(".ngx-spinner-overlay"))));
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("ngx-spinner-overlay")));
-		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[routerlink*='cart']"))).click();
-		//driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
-		List<WebElement> cartItems = driver.findElements(By.cssSelector(".cartSection h3"));
-		
-		Boolean match = cartItems.stream().anyMatch(cartItem->cartItem.getText().equals(productName));
+		ProductCataloguePage productCataloguePage = new ProductCataloguePage(driver);
+		List<WebElement> items = productCataloguePage.getProductList();
+		productCataloguePage.addToCart(productName);
+		productCataloguePage.goToCart();
+		CartPage cartPage = new CartPage(driver);
+		Boolean match = cartPage.verifyProductInCart(productName);
 		Assert.assertTrue(match);
+		cartPage.goToCheckOutPage();
 		
-		driver.findElement(By.cssSelector(".totalRow button")).click();
+		//driver.findElement(By.cssSelector(".totalRow button")).click();
 		driver.findElement(By.xpath("//input[@placeholder='Select Country']")).sendKeys("india");
 		
 //		Actions a = new Actions(driver);
