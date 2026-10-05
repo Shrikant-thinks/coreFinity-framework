@@ -5,6 +5,8 @@ import java.util.List;
 import org.testng.Assert;
 
 import com.way2learn.pages.CartPage;
+import com.way2learn.pages.CheckOutPage;
+import com.way2learn.pages.ConfirmationPage;
 import com.way2learn.pages.LandingPage;
 import com.way2learn.pages.ProductCataloguePage;
 
@@ -20,7 +22,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Rough2 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		String productName = "ZARA COAT 3";
 		WebDriverManager.chromedriver().setup();
 		WebDriver driver = new ChromeDriver();
@@ -28,27 +30,17 @@ public class Rough2 {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.get("https://rahulshettyacademy.com/client/#/auth/login");
 		LandingPage landingPage = new LandingPage(driver);
-		landingPage.loginApplication("shrikantnair80@gmail.com", "Shaddy@0120");
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(".mb-3")));
-		ProductCataloguePage productCataloguePage = new ProductCataloguePage(driver);
-		List<WebElement> items = productCataloguePage.getProductList();
+		ProductCataloguePage productCataloguePage = landingPage.loginApplication("shrikantnair80@gmail.com", "Shaddy@0120");
+		productCataloguePage.getProductList();
 		productCataloguePage.addToCart(productName);
-		productCataloguePage.goToCart();
-		CartPage cartPage = new CartPage(driver);
+		CartPage cartPage = productCataloguePage.goToCart();
 		Boolean match = cartPage.verifyProductInCart(productName);
 		Assert.assertTrue(match);
-		cartPage.goToCheckOutPage();
-		
-		//driver.findElement(By.cssSelector(".totalRow button")).click();
-		driver.findElement(By.xpath("//input[@placeholder='Select Country']")).sendKeys("india");
-		
-//		Actions a = new Actions(driver);
-//		a.sendKeys(driver.findElement(By.xpath("//input[@placeholder='Select Country']")), "india");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ta-results")));
-		driver.findElement(By.cssSelector(".ta-item:nth-of-type(2)")).click();
-		driver.findElement(By.cssSelector(".action__submit")).click();
-		String cartMsg = driver.findElement(By.cssSelector(".hero-primary")).getText();	
+		Thread.sleep(5000);
+		CheckOutPage checkOutPage = cartPage.goToCheckOutPage();
+		checkOutPage.selectCountry("india");
+		ConfirmationPage confirmationPage = checkOutPage.submitOrder();
+		String cartMsg = confirmationPage.getCartMessage();
 		Assert.assertTrue(cartMsg.equalsIgnoreCase("Thankyou for the order."));
 		driver.close();
 

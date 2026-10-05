@@ -49,9 +49,11 @@ public class ProductCataloguePage extends AbstractComponents{
 		
 	}
 	
-	public void goToCart() {
+	public CartPage goToCart() {
 		
 		waitForElementToBeClickable(cartPageBtn).click();
+		CartPage cartPage = new CartPage(driver);
+		return cartPage;
 	}
 
 }
