@@ -5,7 +5,9 @@
     <classes>
       <class name="com.way2learn.tests.SubmitOrderTest">
         <methods>
+          <include name="tearDown"/>
           <include name="submitOrder"/>
+          <include name="launchApplication"/>
         </methods>
       </class> <!-- com.way2learn.tests.SubmitOrderTest -->
     </classes>

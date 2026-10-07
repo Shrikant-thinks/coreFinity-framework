@@ -8,6 +8,8 @@ import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 import com.way2learn.pages.LandingPage;
 
@@ -16,6 +18,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class BaseTest {
 	
 	public WebDriver driver;
+	public LandingPage landingPage;
 	
 	public WebDriver initializeDriver() throws IOException {
 		
@@ -37,12 +40,19 @@ public class BaseTest {
 
 	}
 	
+	@BeforeMethod
 	public LandingPage launchApplication() throws IOException {
 		
 		driver = initializeDriver();
-		LandingPage landingPage = new LandingPage(driver);
+		landingPage = new LandingPage(driver);
 		landingPage.goToLandingPage();
 		return landingPage;
+	}
+	
+	@AfterMethod
+	public void tearDown() {
+		
+		driver.close();
 	}
 
 }

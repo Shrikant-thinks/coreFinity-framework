@@ -9,7 +9,6 @@ import com.way2learn.base.BaseTest;
 import com.way2learn.pages.CartPage;
 import com.way2learn.pages.CheckOutPage;
 import com.way2learn.pages.ConfirmationPage;
-import com.way2learn.pages.LandingPage;
 import com.way2learn.pages.ProductCataloguePage;
 
 public class SubmitOrderTest extends BaseTest{
@@ -17,7 +16,6 @@ public class SubmitOrderTest extends BaseTest{
 	@Test
 	public void submitOrder() throws IOException, InterruptedException {
 		String productName = "ZARA COAT 3";
-		LandingPage landingPage = launchApplication();
 		ProductCataloguePage productCataloguePage = landingPage.loginApplication("shrikantnair80@gmail.com", "Shaddy@0120");
 		productCataloguePage.getProductList();
 		productCataloguePage.addToCart(productName);
@@ -30,7 +28,6 @@ public class SubmitOrderTest extends BaseTest{
 		ConfirmationPage confirmationPage = checkOutPage.submitOrder();
 		String cartMsg = confirmationPage.getCartMessage();
 		Assert.assertTrue(cartMsg.equalsIgnoreCase("Thankyou for the order."));
-		driver.close();
 	}
 
 }
