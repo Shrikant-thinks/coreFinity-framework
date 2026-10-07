@@ -37,4 +37,8 @@ public class LandingPage extends AbstractComponents{
 		return productCataloguePage;
 	}
 	
+	public void goToLandingPage() {
+		driver.get("https://rahulshettyacademy.com/client/#/auth/login");
+	}
+	
 }

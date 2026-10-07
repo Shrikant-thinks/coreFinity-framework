@@ -1,30 +1,23 @@
-package com.way2learn;
+package com.way2learn.tests;
 
-import java.time.Duration;
-import java.util.List;
+import java.io.IOException;
+
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
+import com.way2learn.base.BaseTest;
 import com.way2learn.pages.CartPage;
 import com.way2learn.pages.CheckOutPage;
 import com.way2learn.pages.ConfirmationPage;
 import com.way2learn.pages.LandingPage;
 import com.way2learn.pages.ProductCataloguePage;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-public class Rough2{
-
-	public static void main(String[] args) throws InterruptedException {
+public class SubmitOrderTest extends BaseTest{
+	
+	@Test
+	public void submitOrder() throws IOException, InterruptedException {
 		String productName = "ZARA COAT 3";
-		LandingPage landingPage = new LandingPage(null);
+		LandingPage landingPage = launchApplication();
 		ProductCataloguePage productCataloguePage = landingPage.loginApplication("shrikantnair80@gmail.com", "Shaddy@0120");
 		productCataloguePage.getProductList();
 		productCataloguePage.addToCart(productName);
@@ -37,8 +30,7 @@ public class Rough2{
 		ConfirmationPage confirmationPage = checkOutPage.submitOrder();
 		String cartMsg = confirmationPage.getCartMessage();
 		Assert.assertTrue(cartMsg.equalsIgnoreCase("Thankyou for the order."));
-	
-
+		driver.close();
 	}
 
 }
