@@ -2,6 +2,7 @@ package com.way2learn.base;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -23,7 +24,9 @@ public class BaseTest {
 	public WebDriver initializeDriver() throws IOException {
 		
 		Properties prop = new Properties();
-		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"\\src\\main\\java\\com\\way2learn\\resources\\config.properties");
+		String path = Paths.get(System.getProperty("user.dir"), "src", "main", "java", "com", "way2learn", "resources", "config.properties").toString();
+
+		FileInputStream fis = new FileInputStream(path);
 		prop.load(fis);
 		String browserName = prop.getProperty("browser");
 		

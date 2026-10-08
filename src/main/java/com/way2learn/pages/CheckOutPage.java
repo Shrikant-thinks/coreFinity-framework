@@ -29,7 +29,7 @@ public class CheckOutPage extends AbstractComponents{
 	@FindBy(css = ".ta-item:nth-of-type(2)")
 	WebElement selectCountry;
 	
-	@FindBy(css = "action__submit")
+	@FindBy(css = ".action__submit")
 	WebElement submitBtn;
 	
 	public void selectCountry(String countryName) {
