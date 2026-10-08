@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+
+# Eclipse
+.project
+.classpath
+.settings/
+.metadata/
+
+# Java
+*.class
+
+# Maven build output ONLY
+target/
+
+# Selenium artifacts
+screenshots/
+downloads/
+videos/
+
+# Reports
+test-output/
+extent-reports/
+allure-results/
+allure-report/
+surefire-reports/
+
+# Logs
+logs/
+*.log
+
+# Secrets
+.env
+config/local/
+*.properties.local
